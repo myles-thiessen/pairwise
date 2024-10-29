@@ -1,0 +1,3 @@
+[submodule "pairwise-YCSB"]
+	path = pairwise-YCSB
+	url = https://github.com/myles-thiessen/pairwise-YCSB

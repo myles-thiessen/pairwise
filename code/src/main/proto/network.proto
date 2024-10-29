@@ -1,0 +1,214 @@
+syntax = "proto3";
+
+option java_multiple_files = false;
+option java_package = "mthiessen.grpc";
+
+service Network {
+  rpc handleRequest(Message) returns(Message);
+}
+
+message Message {
+  bytes sender = 1;
+  bytes operation = 2;
+  int32 broadcastRequestNumber = 3;
+  int64 time = 4;
+  bytes payload = 5;
+}
+
+service Experiment {
+  rpc reset(ResetRequest) returns (ResetResponse);
+  rpc startServiceNode(StartServiceNodeRequest) returns
+      (StartServiceNodeResponse);
+  rpc initializeRouters(InitializeRoutersRequest) returns
+      (InitializeRoutersResponse);
+  rpc initializeServiceNode(InitializeServiceNodeRequest) returns
+      (InitializeServiceNodeResponse);
+  rpc warmup(WarmupRequest) returns (WarmupResponse);
+  rpc setInstrumentation(SetInstrumentationRequest) returns
+      (SetInstrumentationResponse);
+  rpc startWorkload(StartWorkloadRequest) returns (StartWorkloadResponse);
+  rpc getMetrics(GetMetricsRequest) returns (GetMetricsResponse);
+  rpc getTrace(GetTraceRequest) returns (GetTraceResponse);
+  rpc setLatency(SetLatencyRequest) returns (SetLatencyResponse);
+  rpc updateLatency(SetLatencyRequest) returns (SetLatencyResponse);
+  rpc startThroughputReadWorkload(StartThroughputReadWorkloadRequest) returns
+      (StartThroughputReadWorkloadResponse);
+  rpc startThroughputWriteWorkload(StartThroughputWriteWorkloadRequest) returns
+      (StartThroughputWriteWorkloadResponse);
+  rpc stopThroughputWriteWorkload(StopThroughputWriteWorkloadRequest) returns
+      (StopThroughputWriteWorkloadResponse);
+  rpc startBackToBackWorkload(StartBackToBackWorkloadRequest) returns
+      (StartBackToBackWorkloadResponse);
+  rpc insert(InsertRequest) returns(InsertResponse);
+  rpc read(ReadRequest) returns(ReadResponse);
+  rpc updateDelta(UpdateDeltaRequest) returns (UpdateDeltaResponse);
+}
+
+message ResetRequest {
+
+}
+
+message ResetResponse {
+
+}
+
+enum StateMachine {
+  NOOP = 0;
+  ROCKS = 1;
+}
+
+message StartServiceNodeRequest {
+  string identifier = 1;
+  string protocol = 2;
+  int32 dataPlanePort = 3;
+  string leader = 4;
+  string lbs = 5;
+  StateMachine stateMachineType = 6;
+}
+
+message StartServiceNodeResponse {
+
+}
+
+message InitializeRoutersRequest {
+  repeated string targets = 1;
+}
+
+message InitializeRoutersResponse {
+
+}
+
+message InitializeServiceNodeRequest {
+
+}
+
+message InitializeServiceNodeResponse {
+
+}
+
+message WarmupRequest {
+  bool write = 1;
+  int32 totalNumberOfOps = 2;
+}
+
+message WarmupResponse {
+
+}
+
+message SetInstrumentationRequest{
+  bool active = 1;
+}
+
+message SetInstrumentationResponse{
+
+}
+
+message StartWorkloadRequest {
+  int64 delay = 1;
+  int32 numberOfOps = 2;
+  int32 discard = 3;
+  int64 start = 4;
+  float writePercentage = 5;
+}
+
+message StartWorkloadResponse {
+
+}
+
+message GetMetricsRequest {
+
+}
+message ReportedMetric{
+  string marker = 1;
+  double metric = 2;
+}
+
+message MetricReporter{
+  bytes c = 1;
+  map<int32, ReportedMetric> reportedmetrics = 2;
+}
+
+message GetMetricsResponse {
+  repeated MetricReporter metricreporters = 1;
+}
+
+message GetTraceRequest {
+
+}
+
+message GetTraceResponse {
+  bytes trace = 1;
+}
+
+message SetLatencyRequest{
+  map<string, float> latency = 1;
+}
+
+message SetLatencyResponse{
+
+}
+
+message StartThroughputReadWorkloadRequest {
+  int32 numberOfWindows = 1;
+  int64 start = 2;
+  int32 window = 3;
+  bool measure = 4;
+  int32 discard = 5;
+}
+
+message StartThroughputReadWorkloadResponse {
+
+}
+
+message StartThroughputWriteWorkloadRequest {
+  int32 delay = 1;
+}
+
+message StartThroughputWriteWorkloadResponse {
+
+}
+
+message StopThroughputWriteWorkloadRequest {
+
+}
+
+message StopThroughputWriteWorkloadResponse {
+
+}
+
+message StartBackToBackWorkloadRequest {
+  float writePercentage = 1;
+  int32 seconds = 2;
+  bool measure = 3;
+}
+
+message StartBackToBackWorkloadResponse {
+
+}
+
+message InsertRequest {
+  string table = 1;
+  string key = 2;
+  bytes value = 3;
+}
+
+message InsertResponse {
+
+}
+
+message ReadRequest {
+  string table = 1;
+  string key = 2;
+}
+
+message ReadResponse {
+  optional bytes value = 1;
+}
+
+message UpdateDeltaRequest {
+  int32 delta = 1;
+}
+
+message UpdateDeltaResponse {
+
+}
