@@ -1,0 +1,5 @@
+code/.idea/*
+code/target/*
+plotting-scripts/.idea/*
+plotting-scripts/__pycache__/*
+plotting-script/venv/*
